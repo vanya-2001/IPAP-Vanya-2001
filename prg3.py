@@ -9,3 +9,4 @@ age = 28
 
 print('Привет,', name, surname, '!')
 print('Вам', age, "лет.")
+
