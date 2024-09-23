@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+body{
+   font-family: 'Open Sans',serif;
+}
+
+
+        h1 {
+    font-family: fantasy;
+    color: #555; /* comment*/
+    font-size: 2rem;
+    text-align: center;
+        }
+/*        img {
+        heght: 50vh;
+        width: 50%;
+        object-fit: cover;
+                }*/
+        a {
+  color: #497DDD;
+  border-bottom: 3px dashed;
+}
+a:visited {
+  color: #EF7D55;
+}
+a:hover {
+  color: #154088;
+  border-bottom: .07em solid;
+}
+a:link {
+  color: rgb(0, 200, 100);
+}
+.mail::before {
+  content: '\2709';
+}
+a:active {
+  color: #497DDD;
+  border-bottom: 1px dashed;
+}
+/*селектор по элементу*/
+.ev::first-letter {
+  font-size: 130%;
+  color: green;
+  font-weight: bold;
+}
+/*селектор атрибута*/
+a[href$='.ru'] {
+  background-color: #ccddee;
+}
+h2, li {
+  font-size: 24px;
+}
+    .esp {
+    background: #ff0000;
+    color: #ffffff;
+    border: #00CC99 dotted 5px;
+    border-style: dotted;
+    margin: 50px;
+    padding: auto 0;
+/*    border-radius: 50%;*/
+    width: 100px;
+    height: 100px;
+    align-content: middle;
+    text-align: center;
+    font-size: 37pt;
+    text-decoration-style: underline;
+    }
+
+    /*селектор -потомок*/
+    code pre {
+    background-color: rgb(0, 255, 0);
+    border: blue solid 4px;
+    font-size: 36px;
+    vertical-align: middle;
+}
+h3 + p {
+  font-style: italic;
+}
+/*наследование*/
+div {
+  color: red;
+  border: black solid 4px;
+}
+span {
+      color: red;
+      border: inherit;
+      font-weight: bold!important;
+    }
+     
