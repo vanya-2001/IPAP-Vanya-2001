@@ -40,7 +40,7 @@ print('А' + 'у'*num + "!")
 print('А', end='')
 for i in range(num):
     print('у', end='')
-    i = i +1
+#    i = i +1 # 'этот шаг не нужен
 print('!', end='\n')
 
 # num = 16
@@ -49,3 +49,5 @@ while num > 0:
     print('у', end='')
     num = num - 1
 print('!', end='\n')
+
+
