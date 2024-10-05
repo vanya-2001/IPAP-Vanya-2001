@@ -42,3 +42,10 @@ for i in range(num):
     print('у', end='')
     i = i +1
 print('!', end='\n')
+
+# num = 16
+print('А', end='')
+while num > 0:
+    print('у', end='')
+    num = num - 1
+print('!', end='\n')
