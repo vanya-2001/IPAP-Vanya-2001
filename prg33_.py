@@ -42,12 +42,7 @@ final.append('укроп')
 # final.pop()
 # final.remove('квас')
 
-# Способ №3
-# print('Ингредиентов в окрошке:', len(final))
-# print('Вот они:')
-# final.sort()
-# print(*final)
-# print(final) #
+#
 # help([].sort())
 # help([].insert())
 x = 'кефир'
@@ -59,3 +54,9 @@ print(final)
 # final.clear()
 final2 = final.copy().pop(4)
 print(final2)
+# Способ №3
+print('Ингредиентов в окрошке:', len(final))
+print('Вот они:')
+# final.sort()
+print(*final, sep='\n')
+# print(final) #
