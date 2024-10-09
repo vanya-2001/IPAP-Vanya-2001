@@ -18,3 +18,8 @@ word = 'P  y t h o n   '
 # lst = word.split()
 word = ''.join(word.split())
 print(word)
+
+text = 'О    сколько   нам открытий     чудных!'
+lst = text.split()
+res = ' '.join(lst)
+print(res)
