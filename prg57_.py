@@ -2,10 +2,10 @@
 while True:
     try:
         int_val = int(input('Ведите целое число: '))
-        print(f'Вы ввели число {int_val}')
+        print(f'Ура! Вы ввели число {int_val}')
         break
     except ValueError:
-        print('Вас просили ввести число')
+        print('Ну просили же Вас, ввести Ц Е Л О Е число!')
         print('Попробуйте снова')
 
 
