@@ -6,7 +6,7 @@ def odd_even(num: int) -> str:
     :param num: целое число
     :return: строку в которой "чёт" или "нечёт"
     """
-    if not isinstance(nu☻m, int):
+    if not isinstance(num, int):
         return 'Ну ты даёшь!!!'
     if num % 2:
         return 'нечёт'
