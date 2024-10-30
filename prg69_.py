@@ -9,14 +9,16 @@ class App():
         # корневой элемент приложения
         self.root = tkinter.Tk()
 
-        self.frame = tkinter.Frame(self.root)
+        self.frame = tkinter.Frame(self.root)#.grid()
         self.frame.grid()
         # Добавляем ярлык
-        self.label = tkinter.Label(self.frame, text='Меняем изображение').grid_configure(row=1, column=1)
+        self.label = tkinter.Label(self.frame, text='Меняем изображение'
+                                   ).grid(row=1, column=1)
 
 
         # Добавляем кнопку
-        self.but = tkinter.Button(self.frame, text='Заменить', command=self.change).grid_configure(row=1, column=2)
+        self.but = tkinter.Button(self.frame, text='Заменить',
+                                  command=self.change).grid(row=2, column=1)
 
         # Добавим холст
         self.canvas = tkinter.Canvas(self.root, width=600, height=400)
@@ -24,9 +26,9 @@ class App():
         # Добавляем изображение на холст
         self.image = Image.open('original.jpg')
         self.photo = ImageTk.PhotoImage(self.image)
-        self.image = self.canvas.create_image(0, 0, anchor='nw', image=self.photo)
-        self.canvas.grid_configure(row=3, column=1)
-        self.root.mainloop()
+        self.canvas.create_image(0, 0, anchor='nw', image=self.photo)
+        self.canvas.grid(row=3, column=1)
+        self.root.mainloop() # ожидание действий пользователя
 
     # Метод change
     def change(self):
@@ -34,7 +36,7 @@ class App():
         self.image = Image.open('inverted.jpg')
         self.photo = ImageTk.PhotoImage(self.image)
         self.canvas.create_image(0, 0, anchor='nw', image=self.photo)
-        self.canvas.grid_configure(row=3, column=1)
+        self.canvas.grid(row=3, column=1)
 
 
 app = App()
