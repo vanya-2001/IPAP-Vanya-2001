@@ -12,6 +12,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle('Мое приложение на Qt6')
 
         button = QPushButton('Кнопка')
+        button.setCheckable(True)
+        button.clicked.connect(self.the_button_was_clicked)
+        button.clicked.connect(self.the_button_was_toggled)
 
         self.setFixedSize(QSize(600, 400))
         #self.setMinimumSize(120,80)
@@ -19,6 +22,14 @@ class MainWindow(QMainWindow):
 
         # Устанавливаем центральный виджет Window.
         self.setCentralWidget(button)
+
+
+    def the_button_was_clicked(self):
+        print('Нажал на кнопку')
+
+    def the_button_was_toggled(self, checked):
+        print('Переключили?', checked)
+
 
 
 app = QApplication(sys.argv)
