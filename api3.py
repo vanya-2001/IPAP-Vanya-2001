@@ -9,8 +9,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Мое приложение на Qt6")
-        button = QPushButton("Нажми!")
+        self.setWindowTitle('Мое приложение на Qt6')
+
+        button = QPushButton('Кнопка')
+
+        self.setFixedSize(QSize(600, 400))
+        #self.setMinimumSize(120,80)
+        #self.setMaximumSize(1200,600)
 
         # Устанавливаем центральный виджет Window.
         self.setCentralWidget(button)
