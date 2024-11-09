@@ -1,1 +1,5 @@
 pillow~=11.0.0
+Flask~=3.0.3
+docxtpl~=0.18.0
+openpyxl~=3.1.5
+PyQt6~=6.7.1

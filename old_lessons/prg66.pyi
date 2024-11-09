@@ -1,5 +1,5 @@
 # Импортирование классов
-from figures import Square, Rectangle
+from old_lessons.figures import Square
 
 if __name__ == '__main__':
     sq1 = Square(10)
