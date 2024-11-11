@@ -15,10 +15,16 @@
 <body>
 <!--главный контейнер-->
 <div class="container">
-    {%  for item in news['news']  %}
-        <h2>{{   item['title']  }}</h2>
-        <p>{{   item['content']  }}</p>
-    {%  endfor  %}
+<!-- Jinja2  шаблонизатор переменные и условия-->
+
+    <div>{{  content  }}</div>
+    {% if num % 2 == 0 %}
+        <h2>{{ num }} - четное</h2>
+    {% else %}
+        <h2>{{ num }} - нечетное</h2>
+    {% endif %}
+
+
 
 </div>
 <!--главный контейнер (end)-->
