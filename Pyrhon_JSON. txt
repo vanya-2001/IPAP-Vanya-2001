@@ -1,0 +1,9 @@
+СООТВЕСТВИЕ между Python и JSON
+Python          JSON          Python          JSON
+dict           object                словари
+list, tuple     array       список, кортеж   массив
+str             string          строка
+int float      number        целое десятичное      число
+TRUE            true
+FALSE           false
+None            null

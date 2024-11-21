@@ -9,8 +9,9 @@ app = Flask(__name__)
 @app.route('/index')
 def index():
     param = {}  # словарь с пустым
-    param['content'] = 'Этот текст отобразиться на главной странице'  #
+    param['text'] = 'Этот текст отобразиться на главной странице'  #
     param['title'] = 'Главная'
+#    param['footer'] = '© 2024 Флагман Консалтинг'
     return render_template('index.html', **param)  #
     # * -обращение к списку ** обращение к словарю
 
@@ -47,6 +48,26 @@ def news():
     print(news_list)
     return render_template(
         'news.html', news=news_list, title='Новости')
+#
+# @app.route('/pets')
+# def pets():
+#     with open("pets.json", "rt", encoding="utf-8") as f:
+#         pets_info = json.load(f)
+#     print(pets_info)
+#     return render_template(
+#         'pets.html', news=pets_info, title='Питомцы')
+
+@app.route('/pets')
+def pets():
+    with open('pets.json', 'rt', encoding='utf-8') as f:
+        pets_info = json.load(f)
+    print(pets_info)
+    return render_template('pets.html', pets=pets_info, title='Питомцы')
+
+@app.route('/quene')
+def quene():
+    return render_template('quene.html', title='Очередь на медосмотр')
+
 
 
 @app.route('/countdown')
@@ -67,15 +88,17 @@ def countdown():
 # http://127.0.0.1:5000/contacts
 @app.route('/contacts')
 def contacts():
-    return """
-    <b>Контакты</b> mail@maileu.ru <br>
-     <b>Телефон</b> Адрес <br>
-     <a href='/'> На главную </a> <br>
-     <a href='/countdown'> Обратный отсчет </a> <br>
-     Телефон
-     """
+    return render_template('contacts.html', title='Наши контакты')
 
 
+@app.route('/about')
+def about():
+    params = {}
+    params['title'] = 'О нас'
+    params['text'] = 'Мы перспективная и динамично развивающаяся компания...'
+    return render_template('about.html', **params)
+
+#
 #  http://127.0.0.1:5000/img/1 # обращение в этом случае
 
 # передача параметров в адресной строке

@@ -25,6 +25,13 @@ def news():
     return render_template('news.html', news=news_list, title='Новости')
 
 
+# @app.route('/pets')
+# def pets():
+#     with open('pets.json', 'rt', encoding='utf-8') as f:
+#         pets_info = json.load(f)
+#     print(pets_info)
+#     return render_template('pets.html', pets=pets_info, title='Питомцы')
+
 @app.route('/pets')
 def pets():
     with open('pets.json', 'rt', encoding='utf-8') as f:
