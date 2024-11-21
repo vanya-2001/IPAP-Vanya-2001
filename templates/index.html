@@ -11,14 +11,32 @@
     <link type="text/css" rel="stylesheet" href="css/style.css">
 
 </head>
-
+<!-- {#
+    {{ переменная }}
+    {%  опервтор  %}
+#}  -->
+<!-- ОБЩИЙ АЛКОРИТМ ВЕТВЛЕНИЯ
+{#
+    {% if  условие 1 %}
+        branch 1
+    {% elif  условие 2 %}
+        branch 2
+    {% elif  условие 3 %}
+        branch 3
+    {% elif  условие N %}
+        branch N
+    {% else %}
+        branch EXIT
+    {% endif %}
+#}
+-->
 <body>
 <!--главный контейнер-->
 <div class="container">
 <!-- Jinja2  шаблонизатор переменные и условия-->
 
     <div>{{  content  }}</div>
-    {% if num % 2 == 0 %}
+    {% if num % 2 == 0 %} <!-- {# комментарий #} -->
         <h2>{{ num }} - четное</h2>
     {% else %}
         <h2>{{ num }} - нечетное</h2>
