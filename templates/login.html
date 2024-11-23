@@ -1,0 +1,59 @@
+{%  extends "base.html" %}
+
+ {% block content %}
+<h1 class="text-center">Авторизация</h1>
+<form action="" class="login-form" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }}
+        {{ form.username(class="form-control") }}<br>
+        {% for error in form.username.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}
+        {{ form.password(class="form-control", type="password") }}<br>
+        {% for error in form.password.errors %}
+            <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </p>
+    <p>
+    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+
+    </p>
+
+<!--    <div>-->
+<!--        {{ form.csrf_token }}-->
+<!--    </div>-->
+<!--    {% for field in form  if field.name != 'csrf_token' %}-->
+<!--    <div>-->
+<!--&lt;!&ndash;        {#  {{ if field.name() = 'submit' }} #}&ndash;&gt;-->
+<!--        {{ field.label() }} <br>-->
+<!--&lt;!&ndash;        {# {% endif %} #}&ndash;&gt;-->
+<!--        {{ field() }}-->
+<!--        {% for error in field.error %}-->
+<!--        <div class="error">{{ error }}</div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    {% endfor %}-->
+</form>
+
+{% endblock %}
+
+
+<!--подвал-->
+
+ <!--подвал-->
+{% block footer %}
+<!--подвал-->
+    <br>
+    <footer class="bg-body-tertiary text-center text-lg-start">
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2024 Авторизация
+        </div>
+        <!-- Copyright -->
+    </footer>
+{% endblock %}
