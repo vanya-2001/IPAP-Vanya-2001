@@ -1,0 +1,13 @@
+$font-stack: Arial, Helvetica;
+$primary-color: #ff45cc;
+$secondary-color: #aaffbb;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
+
+section {
+  font: 50% $font-stack;
+  color: $secondary-color;
+}
