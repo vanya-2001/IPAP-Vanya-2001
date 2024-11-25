@@ -1,21 +1,32 @@
-
-from flask import Flask, url_for, request, render_template
-from flask import flash, redirect
-from loginform import LoginForm
-from mail_sender import send_mail
-from mailform import MailForm
 import configparser
+import datetime
+import json
+import os
+from data import db_session
+from data.users import User
+from data.news import News
+from forms.user import RegisterForm
+
 import requests
+from flask import Flask, url_for, request, render_template
+from flask import flash, redirect, make_response, session
+from flask_login import LoginManager, login_user
 from werkzeug.utils import secure_filename
-import json, os
+
+from forms.loginform import LoginForm
+from mailform import MailForm
 
 current_directory = os.path.dirname(__file__)  # путь к корню сервера
 UPLOAD_FOLDER = f'{current_directory}/static/uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)  # привязали менеджер авторизации к приложению
+
 app.config['SECRET_KEY'] = 'too_short_key'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=365)
 
 config = configparser.ConfigParser()  # объект для обращения к ini
 
@@ -35,6 +46,33 @@ def index():
     # <a href="/index">Главная</a> | <a href="/contacts">Контакты</a> | <a href="/img/1">Картинка 1</a>
     # | <a href="/img/2">Картинка 2</a>
     # """
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    db_sess = db_session.create_session()
+    return db_sess.query(User).get(user_id)
+
+
+@app.route('/session_test')
+def session_test():
+    visit_count = session.get('visit_count', 0)
+    session['visit_count'] = visit_count + 1
+    # session.pop('visit_count', None) # если надо программно уничтожить сессию
+    return make_response(f'Вы посетили данную страницу {visit_count} раз.')
+
+
+@app.route('/cookie_test')
+def cookie_test():
+    visit_count = int(request.cookies.get('visit_count', 0))
+    if visit_count:
+        res = make_response(f'Вы посетили данную страницу {visit_count + 1} раз')
+        res.set_cookie('visit_count', str(visit_count + 1), max_age=60 * 60 * 24 * 365 * 2)
+    else:
+        res = make_response('За последние два года вы посетили данную страницу впервые.')
+        res.set_cookie('visit_count', '1', max_age=60 * 60 * 24 * 365 * 2)
+        # res.set_cookie('visit_count', '1', max_age=0) # удаляем cookies
+    return res
 
 
 @app.route('/news')
@@ -64,7 +102,9 @@ def weather():
                                    'units': 'metric',
                                    'APPID': key})
         data = res.json()
-
+        if len(data['list']) == 0:
+            flash('Город введён неверно!')
+            return redirect(request.url)
         temp = data['list'][0]['main']
 
         params = {}  # пустой словарь для передачи параметров в render weather.html
@@ -78,11 +118,41 @@ def weather():
                                form=request.form, params=params)
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password_again.data:
+            return render_template('register.html', title='Регистрация',
+                                   form=form, message='Пароли не совпадают')
+        db_sess = db_session.create_session()
+        if db_sess.query(User).filter(User.email == form.email.data).first():
+            return render_template('register.html', title='Регистрация',
+                                   form=form, message=f'Пользователь с E-mail {form.email.data} уже есть')
+        user = User(
+            name=form.name.data,
+            email=form.email.data,
+            about=form.about.data
+        )
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        db_sess.commit()
+        return redirect('/login')
+    return render_template('register.html', title='Регистрация', form=form)
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect('/success')
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.email == form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            return redirect('/')  # request.url, либо на нужную страницу
+        return render_template('login.html', title='Ошибка авторизации',
+                               message='Неправильная пара: логин - пароль!',
+                               form=form)
     return render_template('login.html', title='Авторизация', form=form)
 
 
@@ -123,15 +193,11 @@ def contacts():
         Отправлено со страницы: {request.url}.
         """
         # send_mail(email, 'Ваши данные на сайте', text_to_user)
-        # Agree170766 @ gmail.com
-
-        #send_mail('vanya2001-g@yandex.ru', 'Запрос с сайта', text)
-        send_mail('Agree170766 @ gmail.com', 'Запрос с сайта', text)
+        # send_mail('mrharut@yandex.ru', 'Запрос с сайта', text)
         return render_template('mailresult.html',
                                title='Ваши данные',
                                params=params)
     return render_template('contacts.html', title='Наши контакты', form=form)
-
 
 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -196,6 +262,13 @@ def about():
     return render_template('about.html', **params)
 
 
+@app.route('/blog')
+def blog():
+    db_sess = db_session.create_session()
+    news = db_sess.query(News).filter(News.is_private == False)
+    return render_template('blog.html', title='Новости', news=news)
+
+
 # Статический контент (в папке static/...)
 # Все изображения - static/images
 # Таблицы стилей - static/css
@@ -254,5 +327,10 @@ def form_sample():
         return render_template('form_sample.html', title='Ваши данные', form=request.form)
 
 
+# res = cur.execute("""select * from users
+#                   where id > 1 and email not like(%1%)""")
+# res.fetchall()
+
 if __name__ == '__main__':
+    db_session.global_init('db/blogs.db')
     app.run(port=5000, host='127.0.0.1')
